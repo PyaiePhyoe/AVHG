@@ -1,5 +1,6 @@
 from system import System
 from component import Component
+from sensor import Sensor
 from state_variable import State_Variable
 
 class AirSystem(System):
@@ -31,7 +32,7 @@ class AirCleaner(Component):
             value="Good")
         self.add_state_variable(self.filter_quality)
 
-class Mass_Airflow_Meter(Component):
+class Mass_Airflow_Meter(Sensor):
     def __init__(self):
         super().__init__(name="Mass Airflow Meter", 
                          description="a sensor that measures air density and amount entering the engine.")

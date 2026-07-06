@@ -16,8 +16,5 @@ class Component(Entity):
         self.state_variables.append(variable)
 
     def list_state_variables(self):
-        print(f"Variables of {self.name}")
-        print("---------------")
         for state_variable in self.state_variables:
-            #return state_variable.name
-            print(f"{state_variable.name}: {state_variable.value} {state_variable.unit}\n")
+            state_variable.read_variable()

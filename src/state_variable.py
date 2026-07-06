@@ -16,6 +16,9 @@ class State_Variable(Entity):
     def update(self, value):
         self.value = value
 
+    def read_variable(self):
+        print(f"{self.name}: {self.value} {self.unit}\n")
+        
     def is_Valid (self):
         if self.value is None:
             return False
