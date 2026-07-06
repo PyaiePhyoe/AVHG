@@ -19,7 +19,7 @@ class System(Entity):
         print(f"Components of {self.name}")
         print("---------------")
         for component in self.components:
-            print(f"{component.name} | Health: {component.health} | Status: {component.status}")
+            print(f"{component.name} | Health: {component.health} | Status: {component.status}\n")
             component.list_state_variables()
             print("---------------")
             

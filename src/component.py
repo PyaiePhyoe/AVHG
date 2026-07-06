@@ -20,4 +20,4 @@ class Component(Entity):
         print("---------------")
         for state_variable in self.state_variables:
             #return state_variable.name
-            print(f"{state_variable.name}: {state_variable.value} {state_variable.unit}")
+            print(f"{state_variable.name}: {state_variable.value} {state_variable.unit}\n")

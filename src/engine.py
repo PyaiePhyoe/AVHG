@@ -3,4 +3,4 @@ class Engine:
         self.name = "Toyota 1GD-FTV"
 
     def show_info(self):
-        print(f"Engine: {self.name}")
+        print(f"Engine: {self.name}\n")

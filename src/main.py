@@ -2,10 +2,10 @@ from engine import Engine
 from systems.airsystem import AirSystem
 
 print("AVHG Project - Phase 1")
-print("---------------")
+print("---------------\n")
 engine = Engine()
 engine.show_info()
 print("Systems")
-print("---------------")
+print("---------------\n")
 airSystem = AirSystem()
 airSystem.show_info()
