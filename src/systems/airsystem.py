@@ -1,5 +1,6 @@
 from system import System
 from component import Component
+from state_variable import State_Variable
 
 class AirSystem(System):
     def __init__(self):
@@ -8,15 +9,14 @@ class AirSystem(System):
         self.add_component(self.air_cleaner)
 
     def show_info(self):
-        print(f"This is {self.name} with {self.description} and this has {self.health} health, {self.status} status and components such as ", end="")
+        print(f"Name: {self.name}\nDescription: {self.description}\nHealth: {self.health}\nStatus: {self.status}")
         self.list_components()
         
-
 class AirCleaner(Component):
     def __init__(self):
         super().__init__(name="Air Cleaner", description="Filter air")
-        
-
+        self.filter_quality = State_Variable(name="Filter Quality", description="Quality of Filter", unit="Quality", max_value="NA", min_value="NA", normal_max="NA", normal_min="NA", measurement="Quality of filter element", source="Component", timestamp="", value="Good")
+        self.add_state_variable(self.filter_quality)
 
 class MAF:
     def __init__(self):

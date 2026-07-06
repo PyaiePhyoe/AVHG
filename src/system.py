@@ -16,13 +16,13 @@ class System(Entity):
         self.components.append(component)
 
     def list_components(self):
+        print(f"Components of {self.name}")
+        print("---------------")
         for component in self.components:
-            if len(self.components) == 1: 
-                return print(f"{component.name}.")
-
-            if self.components.index(component) == len(self.components) - 1: 
-                return print(f"and {component.name}.")
-            return print(f"{component.name},")
+            print(f"{component.name} | Health: {component.health} | Status: {component.status}")
+            component.list_state_variables()
+            print("---------------")
+            
         
     def get_component(self, name):
         for component in self.components:
