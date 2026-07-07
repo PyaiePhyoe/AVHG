@@ -1,6 +1,5 @@
 from entity import Entity
 from component import Component
-from sensor import Sensor
 
 
 class System(Entity):

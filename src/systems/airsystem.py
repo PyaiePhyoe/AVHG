@@ -1,7 +1,6 @@
 from system import System
 from component import Component
 from sensor import Sensor
-from state_variable import State_Variable
 
 
 class AirSystem(System):
@@ -45,6 +44,5 @@ class Mass_Airflow_Meter(Sensor):
             name="Mass Airflow Meter",
             description="a sensor that measures air density and amount entering the engine.",
         )
-
-        self.read_actual_data(name="maf")
-        self.read_actual_data(name="map")
+        self.read_actual_data(name="MAF")
+        self.read_actual_data(name="MAP")
