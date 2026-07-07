@@ -1,7 +1,20 @@
 from entity import Entity
 
+
 class State_Variable(Entity):
-    def __init__(self, name, description, unit, max_value, min_value, normal_max, normal_min, measurement, source, timestamp, value):
+    def __init__(
+        self,
+        name,
+        description,
+        unit,
+        max_value,
+        min_value,
+        normal_max,
+        normal_min,
+        measurement,
+        actual_value,
+        timestamp,
+    ):
         super().__init__(name, description)
         self.unit = unit
         self.max_value = max_value
@@ -9,17 +22,10 @@ class State_Variable(Entity):
         self.normal_max = normal_max
         self.normal_min = normal_min
         self.measurement = measurement
-        self.source = source
+        self.actual_value = actual_value
         self.timestamp = timestamp
-        self.value = value
 
-    def update(self, value):
-        self.value = value
-
-    def read_variable(self):
-        print(f"{self.name}: {self.value} {self.unit}\n")
-        
-    def is_Valid (self):
+    def is_Valid(self):
         if self.value is None:
             return False
         if self.min_value is not None and self.value < self.min_value:
@@ -27,8 +33,8 @@ class State_Variable(Entity):
         if self.max_value is not None and self.value > self.max_value:
             return False
         return True
-    
-    def is_Normal (self):
+
+    def is_Normal(self):
         if self.value is None:
             return False
         if self.normal_min is not None and self.value < self.normal_min:
