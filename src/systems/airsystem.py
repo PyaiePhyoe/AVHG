@@ -1,6 +1,7 @@
 from system import System
 from component import Component
 from sensor import Sensor
+from diagnostics.diagnose_variable import Diagnose_Variable
 from diagnostics.operating_context import Operating_Context
 
 
@@ -17,7 +18,15 @@ class AirSystem(System):
             f"Name: {self.name}\nDescription: {self.description}\nHealth: {self.health}\nStatus: {self.status}\n"
         )
         self.list_components()
-        print(f"{self.mass_airflow_meter.diagnose_variable('MAF')}")
+
+    def diagnose_system(self):
+        self.engine_condition = Operating_Context().engine_condition()
+        for sensor in self.components:
+            for variable_name, variable_data in sensor.actual_data.items():
+                self.test_result = Diagnose_Variable(
+                    variable_name, variable_data, self.engine_condition
+                )
+                print(self.test_result.check())
 
 
 class Mass_Airflow_Meter(Sensor):
@@ -28,15 +37,6 @@ class Mass_Airflow_Meter(Sensor):
         )
         self.read_actual_maf = self.read_actual_data(name="MAF")
         self.read_actual_map = self.read_actual_data(name="MAP")
-
-    def diagnose_variable(self, variable_name):
-        self.variable_name = variable_name
-        self.engine_condition = Operating_Context().engine_condition()
-        self.variable_value = self.actual_data[self.variable_name]
-        if self.variable_value == 0:
-            return "Invalid"
-        else:
-            return "Valid"
 
 
 """
