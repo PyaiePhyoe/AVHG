@@ -1,4 +1,4 @@
-from obd2 import obd2_data
+from diagnostics.obd2 import obd2_data
 
 
 class Operating_Context:
@@ -35,8 +35,3 @@ class Operating_Context:
             and self.throttle_position == 0
         ):
             return "Deceleration"
-
-
-operating = Operating_Context()
-print(operating.rpm, operating.vehicle_speed)
-print(operating.engine_condition())

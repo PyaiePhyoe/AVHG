@@ -1,5 +1,5 @@
 obd2_data = {
-    "MAF": 7.5,
+    "MAF": 0,
     "MAP": 5.6,
     "RPM": 800,
     "Vehicle Speed": 0,
