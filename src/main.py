@@ -1,11 +1,12 @@
 from engine import Engine
-from systems.airsystem import AirSystem
+from diagnostics.diagnose import Diagnose
+
 
 print("AVHG Project - Phase 1")
 print("---------------\n")
 engine = Engine()
+engine.start()
 engine.show_info()
 print("Systems")
 print("---------------\n")
-airSystem = AirSystem()
-airSystem.diagnose_system()
+Diagnose(engine).start()

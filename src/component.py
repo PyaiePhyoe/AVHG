@@ -6,3 +6,4 @@ class Component(Entity):
         super().__init__(name, description)
         self.health = 100.00
         self.status = "Normal"
+        self.actual_data = None
