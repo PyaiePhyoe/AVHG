@@ -8,10 +8,29 @@ class Diagnose_Variable:
         self.engine_condition = engine_condition
         self.min_value = database[self.variable_name]["min_value"]
         self.max_value = database[self.variable_name]["max_value"]
+        self.expected_min_value = database[self.variable_name][engine_condition][
+            "normal_min"
+        ]
+        self.expected_max_value = database[self.variable_name][engine_condition][
+            "normal_max"
+        ]
+        self.check_result = {
+            self.variable_name: {
+                "Variable Data": self.variable_data,
+                "Status": "Normal",
+            }
+        }
 
     def check(self):
-
         if self.variable_data > self.min_value and self.variable_data < self.max_value:
-            return f"{self.variable_name}: Valid"
+            if (
+                self.variable_data >= self.expected_min_value
+                and self.variable_data <= self.expected_max_value
+            ):
+                return f"{self.variable_name}: {self.variable_data} | {self.check_result[self.variable_name]['Status']}"
+            else:
+                self.check_result[self.variable_name]["Status"] = "Abnormal"
+                return f"{self.variable_name}: {self.variable_data} | {self.check_result[self.variable_name]['Status']}"
         else:
-            return f"{self.variable_name}: Invalid"
+            self.check_result[self.variable_name]["Status"] = "Invalid"
+            return f"{self.variable_name}: {self.variable_data} | {self.check_result[self.variable_name]['Status']}"
