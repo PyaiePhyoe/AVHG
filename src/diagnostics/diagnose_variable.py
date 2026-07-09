@@ -27,10 +27,10 @@ class Diagnose_Variable:
                 self.variable_data >= self.expected_min_value
                 and self.variable_data <= self.expected_max_value
             ):
-                return f"{self.variable_name}: {self.variable_data} | {self.check_result[self.variable_name]['Status']}"
+                return f"{self.variable_name} \n Measured Value: {self.variable_data}\n Expected Value: Between {self.expected_min_value} and {self.expected_max_value}\n Status: {self.check_result[self.variable_name]['Status']}"
             else:
                 self.check_result[self.variable_name]["Status"] = "Abnormal"
-                return f"{self.variable_name}: {self.variable_data} | {self.check_result[self.variable_name]['Status']}"
+                return f"{self.variable_name} \n Measured Value: {self.variable_data}\n Expected Value: Between {self.expected_min_value} and {self.expected_max_value}\n Status: {self.check_result[self.variable_name]['Status']}"
         else:
             self.check_result[self.variable_name]["Status"] = "Invalid"
-            return f"{self.variable_name}: {self.variable_data} | {self.check_result[self.variable_name]['Status']}"
+            return f"{self.variable_name} \n Measured Value: {self.variable_data}\n Expected Value: Between {self.expected_min_value} and {self.expected_max_value}\n Status: {self.check_result[self.variable_name]['Status']}"
