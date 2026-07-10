@@ -22,7 +22,10 @@ class Diagnose_Variable:
         }
 
     def check(self):
-        if self.variable_data > self.min_value and self.variable_data < self.max_value:
+        if (
+            self.variable_data >= self.min_value
+            and self.variable_data <= self.max_value
+        ):
             if (
                 self.variable_data >= self.expected_min_value
                 and self.variable_data <= self.expected_max_value

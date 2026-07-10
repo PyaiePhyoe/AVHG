@@ -13,15 +13,16 @@ class Diagnose:
         )
         print("Systems")
         print("---------------\n")
+        self.engine_health = []
         for system in self.entity.systems:
-            self.engine_health = []
             print(f"System Name: {system.name}\nDescription: {system.description}")
             print("---------------\n")
             print(f"Components of {system.name}")
             print("---------------\n")
+            self.system_health = []
             for index, component in enumerate(system.components, start=1):
                 print(f"{index}. {component.name} - {component.description}")
-                self.system_health = []
+
                 if component.actual_data:
                     self.variable_health = []
                     for variable_name, variable_data in component.actual_data.items():
@@ -73,9 +74,8 @@ class Diagnose:
                 else:
                     self.system_health.append(100)
             self.system_score = sum(self.system_health) / len(self.system_health)
-
             system.health = self.system_score
-            if system.health < 100 and system.health > 30:
+            if system.health < 100:
                 system.status = "Warning"
             elif system.health <= 30 and system.health > 0:
                 system.status = "Abnormal"
