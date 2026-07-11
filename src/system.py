@@ -7,7 +7,7 @@ class System(Entity):
         super().__init__(name, description)
         self.health = 100.00
         self.status = "Normal"
-        self.components = []
+        self.components = {}
 
     def add_component(self, component_list):
         for component in component_list:
