@@ -1,5 +1,6 @@
 from system import System
 from component import Component
+from variable_data import Variable_Data
 import pandas as pd
 
 
@@ -9,6 +10,7 @@ class Engine:
         self.health = 100
         self.status = "Normal"
         self.systems = {}
+        self.manual_data = {}
 
     def show_info(self):
         print(f"Engine: {self.name}\n")
@@ -23,6 +25,11 @@ class Engine:
                 print(
                     f"------>{index} - {value.name} | {value.description} | {value.health} | {value.status}\n"
                 )
+
+        for index, (data, value) in enumerate(self.manual_data.items(), start=1):
+            print(
+                f"{index}. {value.name} | Range - between {value.min_value} and {value.max_value}"
+            )
 
     def start(self):
 
@@ -50,6 +57,40 @@ class Engine:
                         name=self.component_name,
                         description=self.component_description,
                     )
+
+        except FileNotFoundError:
+            print(
+                f"Error: Could not find the Excel file at {file_path}. Please check the file name."
+            )
+
+    def read_manaul_data(self):
+        file_path = "src/data/DataList_1GDFTV.xlsx"
+
+        try:
+            data = pd.read_excel(file_path)
+            for index, row in data.iterrows():
+                self.data_name = str(row["Tester Display"])
+                self.measure = str(row["Measurement Item"])
+                self.min_value = str(row["RangeMin"])
+                self.max_value = str(row["RangeMax"])
+                self.unit = str(row["Unit"])
+                self.normal_min = str(row["NormalMin"])
+                self.normal_max = str(row["NormalMax"])
+                self.running_min = str(row["RunningMin"])
+                self.running_max = str(row["RunningMax"])
+
+                self.manual_data[self.data_name] = Variable_Data(
+                    name=self.data_name,
+                    description=self.measure,
+                    unit=self.unit,
+                    min_value=self.min_value,
+                    max_value=self.max_value,
+                    measurement=self.measure,
+                    normal_min=self.normal_min,
+                    normal_max=self.normal_max,
+                    running_min=self.running_min,
+                    running_max=self.running_max,
+                )
 
         except FileNotFoundError:
             print(
