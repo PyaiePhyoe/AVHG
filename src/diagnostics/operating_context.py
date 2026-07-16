@@ -1,13 +1,13 @@
-from diagnostics.obd2 import obd2_data
+from diagnostics.obd2 import dummy_data
 
 
 class Operating_Context:
     def __init__(self):
-        self.rpm = obd2_data["RPM"]
-        self.vehicle_speed = obd2_data["Vehicle Speed"]
-        self.accelerator_pedal_position = obd2_data["Accelerator Pedal Position"]
-        self.coolant_temp = obd2_data["Coolant Temperature"]
-        self.throttle_position = obd2_data["Throttle Position"]
+        self.rpm = dummy_data["engine speed"]
+        self.vehicle_speed = dummy_data["vehicle speed"]
+        self.accelerator_pedal_position = dummy_data["accelerator position"]
+        self.coolant_temp = dummy_data["coolant temp"]
+        self.throttle_position = dummy_data["actual throttle position"]
 
     def engine_condition(self):
         if (

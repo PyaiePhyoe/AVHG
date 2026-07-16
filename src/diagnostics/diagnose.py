@@ -1,5 +1,6 @@
 from diagnostics.operating_context import Operating_Context
-from diagnostics.diagnose_variable import Diagnose_Variable
+from diagnostics import obd2
+import math
 
 
 class Diagnose:
@@ -11,96 +12,59 @@ class Diagnose:
         print(
             f"Current Engine Operation\n{self.engine_operating_condition}\n----------------\n"
         )
-        print("Systems")
-        print("---------------\n")
+
         self.engine_health = []
-        for system in self.entity.systems:
-            print(f"System Name: {system.name}\nDescription: {system.description}")
-            print("---------------\n")
-            print(f"Components of {system.name}")
-            print("---------------\n")
-            self.system_health = []
-            for index, component in enumerate(system.components, start=1):
-                print(f"{index}. {component.name} - {component.description}")
-
-                if component.actual_data:
-                    self.variable_health = []
-                    for variable_name, variable_data in component.actual_data.items():
-                        self.test_result = Diagnose_Variable(
-                            variable_name,
-                            variable_data,
-                            self.engine_operating_condition,
-                        )
-                        print(self.test_result.check())
-                        if (
-                            self.test_result.check_result[variable_name]["Status"]
-                            != "Normal"
-                        ):
-                            if (
-                                self.test_result.check_result[variable_name]["Status"]
-                                == "Abnormal"
-                            ):
-                                self.variable_health.append(70)
-                            else:
-                                self.variable_health.append(0)
-                        else:
-                            self.variable_health.append(100)
-
-                    self.component_score = sum(self.variable_health) / len(
-                        self.variable_health
-                    )
-
-                    component.health = self.component_score
-                    if component.health < 100 and component.health > 30:
-                        component.status = "Warning"
-                    elif component.health <= 30 and component.health > 0:
-                        component.status = "Abnormal"
-                    elif component.health == 0:
-                        component.status = "Invalid"
-                else:
-                    print(f"Check {component.name} physically.")
-                print(
-                    f"Component Condition -> Health: {component.health} | Status: {component.status}"
-                )
-                print("---------------\n")
-
-                if component.status != "Normal":
-                    if component.status == "Warning":
-                        self.system_health.append(70)
-                    elif component.status == "Abnormal":
-                        self.system_health.append(30)
-                    else:
-                        self.system_health.append(0)
-                else:
-                    self.system_health.append(100)
-            self.system_score = sum(self.system_health) / len(self.system_health)
-            system.health = self.system_score
-            if system.health < 100:
-                system.status = "Warning"
-            elif system.health <= 30 and system.health > 0:
-                system.status = "Abnormal"
-            elif system.health == 0:
-                system.status = "Invalid"
+        for index, (data, value) in enumerate(self.entity.manual_data.items(), start=1):
             print(
-                f"System Condition -> Health: {system.health} | Status: {system.status}"
+                f"{index}. {value.name} | Range - between {value.min_value} and {value.max_value} | Normal - between {value.normal_min} and {value.normal_max}",
             )
-            print("---------------\n")
-            if system.status != "Normal":
-                if system.status == "Warning":
-                    self.engine_health.append(70)
-                elif system.status == "Abnormal":
-                    self.engine_health.append(30)
+            if value.name.lower() in obd2.dummy_data:
+                self.actual_data = obd2.dummy_data[value.name.lower()]
+                print(f"Actual - {self.actual_data}")
+
+                if str(value.min_value) not in (
+                    "nan",
+                    "On",
+                    "Off",
+                ) and str(value.max_value) not in ("nan", "On", "Off"):
+                    if self.actual_data >= float(
+                        value.min_value
+                    ) and self.actual_data <= float(value.max_value):
+                        print("Valid!")
+                        if (
+                            self.engine_operating_condition == "Warm Idling"
+                            or self.engine_operating_condition == "Cold Starting"
+                        ):
+                            if str(value.normal_min) not in (
+                                "nan",
+                                "On",
+                                "Off",
+                            ) and str(value.normal_max) not in ("nan", "On", "Off"):
+                                if self.actual_data >= float(
+                                    value.normal_min
+                                ) and self.actual_data <= float(value.normal_max):
+                                    print("Normal!")
+                                else:
+                                    print("Abnormal!")
+                            else:
+                                print("Check visually!")
+                        else:
+                            if value.running_min not in (
+                                "NA",
+                                "On",
+                                "Off",
+                            ) and value.running_max not in ("NA", "On", "Off"):
+                                if self.actual_data >= float(
+                                    value.running_min
+                                ) and self.actual_data <= float(value.running_max):
+                                    print("Normal!")
+                                else:
+                                    print("Abnormal!")
+                            else:
+                                print("Check visually!")
+                    else:
+                        print("Invalid!")
                 else:
-                    self.engine_health.append(0)
+                    print("Check visually!")
             else:
-                self.engine_health.append(100)
-        self.engine_score = sum(self.engine_health) / len(self.engine_health)
-        self.health = self.engine_score
-        if self.health < 100 and system.health > 30:
-            self.status = "Warning"
-        elif self.health <= 30 and self.health > 0:
-            self.status = "Abnormal"
-        elif self.health == 0:
-            self.status = "Invalid"
-        print(f"Engine Condition -> Health: {self.health} | Status: {self.status}")
-        print("---------------\n")
+                pass

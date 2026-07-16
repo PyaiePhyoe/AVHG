@@ -26,11 +26,6 @@ class Engine:
                     f"------>{index} - {value.name} | {value.description} | {value.health} | {value.status}\n"
                 )
 
-        for index, (data, value) in enumerate(self.manual_data.items(), start=1):
-            print(
-                f"{index}. {value.name} | Range - between {value.min_value} and {value.max_value}"
-            )
-
     def start(self):
 
         file_path = "src/data/Engine.xlsx"
@@ -71,13 +66,13 @@ class Engine:
             for index, row in data.iterrows():
                 self.data_name = str(row["Tester Display"])
                 self.measure = str(row["Measurement Item"])
-                self.min_value = str(row["RangeMin"])
-                self.max_value = str(row["RangeMax"])
+                self.min_value = row["RangeMin"]
+                self.max_value = row["RangeMax"]
                 self.unit = str(row["Unit"])
-                self.normal_min = str(row["NormalMin"])
-                self.normal_max = str(row["NormalMax"])
-                self.running_min = str(row["RunningMin"])
-                self.running_max = str(row["RunningMax"])
+                self.normal_min = row["NormalMin"]
+                self.normal_max = row["NormalMax"]
+                self.running_min = row["RunningMin"]
+                self.running_max = row["RunningMax"]
 
                 self.manual_data[self.data_name] = Variable_Data(
                     name=self.data_name,
